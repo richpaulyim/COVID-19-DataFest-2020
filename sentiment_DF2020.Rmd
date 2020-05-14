@@ -1,0 +1,73 @@
+---
+title: "COVID-19 Sentiment Analysis"
+author: "Richard Yim"
+date: "5/13/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Reading in Cleaned Data and Basic Reformatting
+```{r}
+headlines <- read.csv("data/news_clean.csv")
+
+# Names of variables
+names(headlines)
+
+# Load all of the data into the working environment
+attach(headlines)
+# We ignore the id, timestamp and source, and focus on the title, description and date
+headlines <- data.frame(title, description, date)
+# Reformat and separate year month and day
+headlines$month = substr(date, 6, 7)
+headlines$day <- substr(date, 9, 10)
+attach(headlines)
+```
+We want to check how many days there are in the dataset:
+```{R}
+begin <- headlines$date[1]
+end <- headlines$date[length(headlines$date)]
+as.Date(end) - as.Date(begin)
+cat(begin, end)
+```
+
+## Frequency of Strings
+```{r}
+library("ggplot2") #beautiful plots
+library("reshape2") #melt-function
+
+plot_word_in_day <- function(phrase){
+  freq <- NULL
+  days <- unique(headlines$date)
+    for(day in days)
+    {
+      matching_day <- headlines[headlines$date == day,]
+      freq[length(freq)+1] <- length(grepl(phrase, matching_day$title, fixed = TRUE))
+    }
+  return(freq)
+}
+
+list <- c("stay", "recession", "pandemic")
+time <- data.frame(seq(as.Date("2020-03-21"),by="week",length.out=53))
+
+
+for(i in list)
+{
+  out <- plot_word_in_day(i)
+  time <- cbind(time, out)
+}
+
+colnames(time) <- c("date", list)
+charts <- melt(time, id="date")
+names(charts) <- c('x', 'func', 'value')
+
+g=ggplot() +
+  geom_line(data = charts, aes(x = x, y = value, color = func),size=1)+
+  xlab("year") +
+  ylab("frequency")
+g+scale_color_manual(values=c("#999999", "#FF0000", "#FF00D0","#0007FF","#09FF00"))
+```
+
+
