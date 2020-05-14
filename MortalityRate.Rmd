@@ -29,3 +29,29 @@ ggplot(data = narrowed, aes(x = days_since, y = rate)) +
   labs(title = "Mortality Rate Over Time",x="Days Since 12/31/2019", y = "Mortality Rate (Percentage)") + 
   theme_light()
 ```
+
+Daily New Cases
+```{r}
+ggplot(data = narrowed, aes(x = days_since, y = new_cases)) + 
+  geom_line(aes(color = location)) + 
+  expand_limits(x = c(0,150),y = c(0, 110000)) +
+  scale_x_continuous(breaks = c(0, 25, 50, 75, 100, 125, 150), expand = c(0,0.01)) + 
+  scale_y_continuous(breaks = c(10^4,2*10^4,3*10^4,4*10^4,5,6*10^4,7*10^4,8*10^4,9*10^4,10*10^4,11*10^4), expand = c(0,0.1)) + 
+  annotate("segment", x = 71, xend = 71, y = 0, yend = 90000) + geom_point(aes(x = 71, y = 90000)) + 
+  annotate("text", x = 71, y = 100000, label = "WHO Declares \nCOVID-19 a \nGlobal Pandemic", size = 2.5) + 
+  labs(title = "New Cases Over Time",x="Days Since 12/31/2019", y = "New Cases") + 
+  theme_light()
+```
+
+Total Cases Over Time
+```{r}
+ggplot(data = narrowed, aes(x = days_since, y = total_cases)) + 
+  geom_line(aes(color = location)) + 
+  expand_limits(x = c(0,150),y = c(0, 1000000)) +
+  scale_x_continuous(breaks = c(0, 25, 50, 75, 100, 125, 150), expand = c(0,0.01)) + 
+  scale_y_continuous(breaks = c(10^6,2*10^6,3*10^6,4*10^6,5*10^6), expand = c(0,0.1)) + 
+  annotate("segment", x = 71, xend = 71, y = 0, yend = 3500000) + geom_point(aes(x = 71, y = 3500000)) + 
+  annotate("text", x = 71, y = 3800000, label = "WHO Declares \nCOVID-19 a \nGlobal Pandemic", size = 2.5) + 
+  labs(title = "Total Cases Over Time",x="Days Since 12/31/2019", y = "Total Cases") + 
+  theme_light()
+```
