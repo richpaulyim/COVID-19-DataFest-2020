@@ -1,0 +1,18 @@
+---
+title: "DataFest 2020"
+date: "5/13/2020"
+output: html_document
+---
+
+##Read in datafiles
+```{r}
+#News headlines
+news <- read.csv("https://raw.githubusercontent.com/richpaulyim/CRoSs_ValidatEd-DataFest2020/master/news.csv")
+
+#COVID count
+us_counties <- read.csv("https://raw.githubusercontent.com/richpaulyim/CRoSs_ValidatEd-DataFest2020/master/us-counties.csv")
+covid_data <- read.csv("https://raw.githubusercontent.com/richpaulyim/CRoSs_ValidatEd-DataFest2020/master/owid-covid-data.csv")
+covid_death <- read.csv("https://raw.githubusercontent.com/richpaulyim/CRoSs_ValidatEd-DataFest2020/master/Provisional_COVID-19_Death_Counts_by_Week_Ending_Date_and_State.csv")
+```
+
+
