@@ -1,8 +1,10 @@
 ---
 title: "COVID-19 Sentiment Analysis"
-author: "Richard Yim"
+author: "Cassandra, Susan, Vicki, Emily and Richard"
 date: "5/13/2020"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r setup, include=FALSE}
@@ -29,7 +31,8 @@ We want to check how many days there are in the dataset:
 ```{R}
 begin <- headlines$date[1]
 end <- headlines$date[length(headlines$date)]
-as.Date(end) - as.Date(begin)
+days <- as.Date(end) - as.Date(begin)
+days
 cat(begin, end)
 ```
 
@@ -72,4 +75,45 @@ g=ggplot() +
 g+scale_color_manual(values=c("#FF0000", "#FF00D0","#0007FF","#09FF00"))
 ```
 
+## Sentiment Analysis
+```{r}
+library(tidytext)
+library(ggplot2)
+library(lubridate) # month and year function
+library(data.table) # for the inner join
 
+pos_neg <- get_sentiments("afinn")
+pos_neg$X1 <- factor(pos_neg$word)
+pos_neg$word <- NULL
+pos_neg <- data.frame(pos_neg)
+
+result <- data.frame(matrix(ncol = 2, nrow = 0))
+
+days <- unique(headlines$date)
+score <- NULL
+options(warn=-1)
+for(day in days){
+  # select words in day
+  words_in_day <- data.frame(headlines$title[headlines$date == day])
+  # split words 
+  h <- apply(words_in_day, MARGIN=1, function(x) strsplit(as.character(x)," "))
+  X1 <- unlist(h, recursive = F)
+  xtab <- data.frame(X1)
+  print(dim(xtab))
+  print(dim(pos_neg))
+  h2 <- left_join(xtab, pos_neg, by = "X1")
+  h2[is.na(h2)] <- 0
+  score[length(score) + 1] <- sum(h2[,2])
+}
+options(warn=1)
+
+#g1=ggplot() +
+#  geom_line(data = sent, aes(x = x, y = value),size=1) +
+#  xlab("day") +
+#  ylab("sentiment")
+```
+## Looking at the Data
+We have a time-series on the sentiment from coronavirus related news.
+```{R}
+sent
+```
