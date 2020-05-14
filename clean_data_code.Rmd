@@ -24,8 +24,14 @@ news$date <- as.Date(substr(news$timestamp,1,10),"%Y-%m-%d")
 sum(is.na(news))#there are none :)
 
 #getting rid of weird symbols
-news$title <- gsub("[â€]", "", news$title) #not sure if i'm missing anything else.. maybe the weird quotation?
+news$title <- gsub("[â€]", "", news$title) #not sure if i'm missing anything else
+news$title <- gsub("[˜™]", "\'", news$title)
 news$description <- gsub("[â€]", "", news$description) #not sure if i'm missing anything else
+news$description<- gsub("[˜™]", "\'", news$description)
+
+#get rid of rows that have no english char in its title
+news <- news[which(grepl("[A-Za-z]", news$title)),]
+news <- news[which(!grepl("*TOP NEWS*", news$title)),]
 
 #create clean version of data
 write.csv(news, "C:/Users/cassa/Documents/UCLA/Third Year/news_clean.csv", row.names = FALSE)
