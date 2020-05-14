@@ -1,0 +1,31 @@
+---
+title: "Mortality Rate Visualization"
+author: "Vicki Truong"
+date: "5/14/2020"
+output: html_document
+---
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+global = read.csv("covidData_clean.csv")
+global = global %>% mutate(rate = 100 * total_deaths / total_cases) #create column for mortality rate
+global$rate[is.na(global$rate)]<-0
+origin <- as.Date("2019-12-31")
+global = global %>% mutate(days_since = as.Date(date) - origin) #create column for days since 12/31/2019, the start of our data
+
+narrowed = global %>% filter(location == "World" | iso_code == "USA")
+
+#as.Date("2020-03-11") - as.Date("2019-12-31") returns 71 days, which is the time between the start of the data and when the WHO declared COVID-19 a global pandemic
+
+ggplot(data = narrowed, aes(x = days_since, y = rate)) + 
+  geom_line(aes(color = location)) + 
+  expand_limits(x = c(0,150),y = c(0, 10)) +
+  scale_x_continuous(breaks = c(0, 25, 50, 75, 100, 125, 150), expand = c(0,0.01)) + 
+  scale_y_continuous(breaks = c(1:10), expand = c(0,.01)) + 
+  annotate("segment", x = 71, xend = 71, y = 0, yend = 8) + geom_point(aes(x = 71, y = 8)) + 
+  annotate("text", x = 71, y = 8.75, label = "WHO Declares \nCOVID-19 a \nGlobal Pandemic", size = 2.5) + 
+  labs(title = "Mortality Rate Over Time",x="Days Since 12/31/2019", y = "Mortality Rate (Percentage)") + 
+  theme_light()
+```
