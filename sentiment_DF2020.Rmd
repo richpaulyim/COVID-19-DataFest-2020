@@ -43,30 +43,33 @@ plot_word_in_day <- function(phrase){
   days <- unique(headlines$date)
     for(day in days)
     {
-      matching_day <- headlines[headlines$date == day,]
-      freq[length(freq)+1] <- length(grepl(phrase, matching_day$title, encoding = "UTF-8"))
+      matching_day <- headlines$title[headlines$date == day]
+      freq[length(freq)+1] <- sum(grepl(phrase, matching_day, ignore.case = FALSE))
     }
   return(freq)
 }
 
-list <- c("recession")
-time <- data.frame(seq(as.Date("2020-03-21"),by="week",length.out=53))
+list <- c("recession", "downturn", "covid-19", "trump")
+time <- data.frame(seq(as.Date("2020-03-21"),by="day",length.out=53))
 
-
+# turn off warnings temporarily
+options(warn=-1)
 for(i in list)
 {
-  time <- cbind(time, plot_word_in_day(i))
+  val <- plot_word_in_day(i)
+  time <- cbind(time, val)
 }
+options(warn = 0)
 
 colnames(time) <- c("date", list)
 charts <- melt(time, id="date")
 names(charts) <- c('x', 'func', 'value')
 
 g=ggplot() +
-  geom_line(data = charts, aes(x = x, y = value, color = func),size=1)+
+  geom_line(data = charts, aes(x = x, y = value, color = func),size=1) +
   xlab("year") +
   ylab("frequency")
-g+scale_color_manual(values=c("#999999", "#FF0000", "#FF00D0","#0007FF","#09FF00"))
+g+scale_color_manual(values=c("#FF0000", "#FF00D0","#0007FF","#09FF00"))
 ```
 
 
