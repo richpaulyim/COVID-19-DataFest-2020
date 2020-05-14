@@ -24,10 +24,12 @@ news$date <- as.Date(substr(news$timestamp,1,10),"%Y-%m-%d")
 sum(is.na(news))#there are none :)
 
 #getting rid of weird symbols
-news$title <- gsub("[â€]", "", news$title) #not sure if i'm missing anything else
+news$title <- gsub("[â€Â]", "", news$title) #not sure if i'm missing anything else
 news$title <- gsub("[˜™]", "\'", news$title)
-news$description <- gsub("[â€]", "", news$description) #not sure if i'm missing anything else
+news$description <- gsub("[â€Â]", "", news$description) #not sure if i'm missing anything else
 news$description<- gsub("[˜™]", "\'", news$description)
+news$description<- gsub("[¦]", "...", news$description)
+
 
 #get rid of rows that have no english char in its title
 news <- news[which(grepl("[A-Za-z]", news$title)),]
