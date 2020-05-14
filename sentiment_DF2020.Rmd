@@ -44,19 +44,18 @@ plot_word_in_day <- function(phrase){
     for(day in days)
     {
       matching_day <- headlines[headlines$date == day,]
-      freq[length(freq)+1] <- length(grepl(phrase, matching_day$title, fixed = TRUE))
+      freq[length(freq)+1] <- length(grepl(phrase, matching_day$title, encoding = "UTF-8"))
     }
   return(freq)
 }
 
-list <- c("stay", "recession", "pandemic")
+list <- c("recession")
 time <- data.frame(seq(as.Date("2020-03-21"),by="week",length.out=53))
 
 
 for(i in list)
 {
-  out <- plot_word_in_day(i)
-  time <- cbind(time, out)
+  time <- cbind(time, plot_word_in_day(i))
 }
 
 colnames(time) <- c("date", list)
