@@ -52,7 +52,7 @@ plot_word_in_day <- function(phrase){
   return(freq)
 }
 
-list <- c("recession", "downturn", "covid-19", "trump")
+list <- c("stay-at-home", "order", "social distancing", "case")
 time <- data.frame(seq(as.Date("2020-03-21"),by="day",length.out=53))
 
 # turn off warnings temporarily
@@ -105,7 +105,7 @@ for(day in days){
   scoreOverall[length(scoreOverall) + 1] <- sum(h2[,2])
   scoreAverage[length(scoreAverage) + 1] <- sum(h2[,2])/sum(h2[,2] != 0)
 }
-options(warn=1)
+options(warn=0)
 scores <- data.frame(cbind(days, scoreOverall, scoreAverage))
 #graph Average sentiment
 g1=ggplot(data = scores, aes(x = days, y = scoreAverage)) +
