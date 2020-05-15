@@ -82,14 +82,11 @@ library(tidytext)
 library(ggplot2)
 library(lubridate) # month and year function
 library(data.table) # for the inner join
-
 pos_neg <- get_sentiments("afinn")
 pos_neg$X1 <- factor(pos_neg$word)
 pos_neg$word <- NULL
 pos_neg <- data.frame(pos_neg)
-
 result <- data.frame(matrix(ncol = 2, nrow = 0))
-
 days <- unique(headlines$date)
 scoreOverall <- NULL
 scoreAverage <- NULL
@@ -112,11 +109,11 @@ options(warn=1)
 scores <- data.frame(cbind(days, scoreOverall, scoreAverage))
 #graph Average sentiment
 g1=ggplot(data = scores, aes(x = days, y = scoreAverage)) +
- geom_line() + 
+ geom_line(aes(y = scoreAverage), color = "blue") + 
  labs(title = "Average Sentiment each day", x = "days since 3/20/2020", y = "Average Sentiment")
 #graph Overall Sentiment
 g2=ggplot(data = scores, aes(x = days, y = scoreOverall)) +
- geom_line() + 
+ geom_line(aes(y = scoreOverall), color = "red") + 
  labs(title = "Aggregate Sentiment each day", x = "days since 3/20/2020", y = "Overall Sentiment")
 g1
 g2
