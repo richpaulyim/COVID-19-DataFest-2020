@@ -108,13 +108,22 @@ for(day in days){
 options(warn=0)
 scores <- data.frame(cbind(days, scoreOverall, scoreAverage))
 #graph Average sentiment
-g1=ggplot(data = scores, aes(x = days, y = scoreAverage)) +
+g1=ggplot(data = scores, aes(x = days-1, y = scoreAverage)) +
  geom_line(aes(y = scoreAverage), color = "blue") + 
- labs(title = "Average Sentiment each day", x = "days since 3/20/2020", y = "Average Sentiment")
+ labs(title = "Average Sentiment each day", x = "Days since 3/21/2020", y = "Average Sentiment")+ 
+  annotate("segment", x = 38, xend = 38, y = 0, yend = -0.6) + geom_point(aes(x = 38, y = -0.6)) + 
+  annotate("text", x = 38, y = -.65, label = "U.S. Reaches\nOne Million Total Cases\nof COVID-19", size = 2.5)+ 
+  annotate("segment", x = 12, xend = 12, y = 0, yend = -0.6) + geom_point(aes(x = 12, y = -0.6)) + 
+  annotate("text", x = 12.5, y = -.68, label = "World Reaches\nOne Million Total Cases\nof COVID-19", size = 2.5)
+
 #graph Overall Sentiment
-g2=ggplot(data = scores, aes(x = days, y = scoreOverall)) +
+g2=ggplot(data = scores, aes(x = days-1, y = scoreOverall)) +
  geom_line(aes(y = scoreOverall), color = "red") + 
- labs(title = "Aggregate Sentiment each day", x = "days since 3/20/2020", y = "Overall Sentiment")
+ labs(title = "Aggregate Sentiment each day", x = "Days since 3/21/2020", y = "Overall Sentiment")+ 
+  annotate("segment", x = 38, xend = 38, y = 0, yend = -250) + geom_point(aes(x = 38, y = -250)) + 
+  annotate("text", x = 38, y = -268, label = "U.S. Reaches\nOne Million Total Cases\nof COVID-19", size = 2.5)+ 
+  annotate("segment", x = 12, xend = 12, y = 0, yend = -250) + geom_point(aes(x = 12, y = -250)) + 
+  annotate("text", x = 14, y = -268, label = "World Reaches\nOne Million Total Cases\nof COVID-19", size = 2.5)
 g1
 g2
 ```
