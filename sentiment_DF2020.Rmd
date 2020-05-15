@@ -110,11 +110,11 @@ scores <- data.frame(cbind(days, scoreOverall, scoreAverage))
 #graph Average sentiment
 g1=ggplot(data = scores, aes(x = days, y = scoreAverage)) +
  geom_line(aes(y = scoreAverage), color = "blue") + 
- labs(title = "Average Sentiment each day", x = "days since 3/21/2020", y = "Average Sentiment")
+ labs(title = "Average Sentiment each day", x = "Days since 3/21/2020", y = "Average Sentiment")
 #graph Overall Sentiment
 g2=ggplot(data = scores, aes(x = days, y = scoreOverall)) +
  geom_line(aes(y = scoreOverall), color = "red") + 
- labs(title = "Aggregate Sentiment each day", x = "days since 3/21/2020", y = "Overall Sentiment")
+ labs(title = "Aggregate Sentiment each day", x = "Days since 3/21/2020", y = "Overall Sentiment")
 g1
 g2
 ```
