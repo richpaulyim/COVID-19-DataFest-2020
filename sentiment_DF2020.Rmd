@@ -77,6 +77,7 @@ g+scale_color_manual(values=c("#FF0000", "#FF00D0","#0007FF","#09FF00"))
 
 ## Sentiment Analysis
 ```{r}
+library(dplyr)
 library(tidytext)
 library(ggplot2)
 library(lubridate) # month and year function
@@ -97,7 +98,7 @@ for(day in days){
   words_in_day <- data.frame(headlines$title[headlines$date == day])
   # split words 
   h <- apply(words_in_day, MARGIN=1, function(x) strsplit(as.character(x)," "))
-  X1 <- unlist(h, recursive = F)
+  X1 <- unlist(unlist(h, recursive = F))
   xtab <- data.frame(X1)
   print(dim(xtab))
   print(dim(pos_neg))
