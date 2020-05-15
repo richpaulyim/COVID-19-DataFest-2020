@@ -108,10 +108,11 @@ for(day in days){
 }
 options(warn=1)
 
-#g1=ggplot() +
-#  geom_line(data = sent, aes(x = x, y = value),size=1) +
-#  xlab("day") +
-#  ylab("sentiment")
+scores <- data.frame(cbind(days, score))
+g1=ggplot(data = scores, aes(x = days, y = score)) +
+ geom_line() + 
+ labs(title = "Aggregate Sentiment each day", x = "days since 3/20/2020", y = "Sentiment")
+g1
 ```
 ## Looking at the Data
 We have a time-series on the sentiment from coronavirus related news.
