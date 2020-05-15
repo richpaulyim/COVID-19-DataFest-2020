@@ -91,7 +91,8 @@ pos_neg <- data.frame(pos_neg)
 result <- data.frame(matrix(ncol = 2, nrow = 0))
 
 days <- unique(headlines$date)
-score <- NULL
+scoreOverall <- NULL
+scoreAverage <- NULL
 options(warn=-1)
 for(day in days){
   # select words in day
@@ -100,19 +101,25 @@ for(day in days){
   h <- apply(words_in_day, MARGIN=1, function(x) strsplit(as.character(x)," "))
   X1 <- unlist(unlist(h, recursive = F))
   xtab <- data.frame(X1)
-  print(dim(xtab))
-  print(dim(pos_neg))
+  #print(dim(xtab))
+  #print(dim(pos_neg))
   h2 <- left_join(xtab, pos_neg, by = "X1")
   h2[is.na(h2)] <- 0
-  score[length(score) + 1] <- sum(h2[,2])
+  scoreOverall[length(scoreOverall) + 1] <- sum(h2[,2])
+  scoreAverage[length(scoreAverage) + 1] <- sum(h2[,2])/sum(h2[,2] != 0)
 }
 options(warn=1)
-
-scores <- data.frame(cbind(days, score))
-g1=ggplot(data = scores, aes(x = days, y = score)) +
+scores <- data.frame(cbind(days, scoreOverall, scoreAverage))
+#graph Average sentiment
+g1=ggplot(data = scores, aes(x = days, y = scoreAverage)) +
  geom_line() + 
- labs(title = "Aggregate Sentiment each day", x = "days since 3/20/2020", y = "Sentiment")
+ labs(title = "Average Sentiment each day", x = "days since 3/20/2020", y = "Average Sentiment")
+#graph Overall Sentiment
+g2=ggplot(data = scores, aes(x = days, y = scoreOverall)) +
+ geom_line() + 
+ labs(title = "Aggregate Sentiment each day", x = "days since 3/20/2020", y = "Overall Sentiment")
 g1
+g2
 ```
 ## Looking at the Data
 We have a time-series on the sentiment from coronavirus related news.
