@@ -52,6 +52,7 @@ plot_word_in_day <- function(phrase){
   return(freq)
 }
 
+# list <- c("recession", "shutdown", "cure", "vaccine")
 list <- c("stay-at-home", "order", "social distancing", "case")
 time <- data.frame(seq(as.Date("2020-03-21"),by="day",length.out=53))
 
