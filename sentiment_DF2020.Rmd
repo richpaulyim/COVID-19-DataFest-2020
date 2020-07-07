@@ -78,7 +78,6 @@ g+scale_color_manual(values=c("#FF0000", "#FF00D0","#0007FF","#09FF00"))
 
 ## Sentiment Analysis
 ```{r}
-library(dplyr)
 library(tidytext)
 library(ggplot2)
 library(lubridate) # month and year function
